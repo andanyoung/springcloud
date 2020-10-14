@@ -1,0 +1,24 @@
+# 定义Spring应用名称，它是一个微服务的名称，一个微服务可拥有多个实例
+spring:
+  application:
+    name:  eureka-server
+  profiles:
+    # 当配置为“peer1”时选择application-peer1.yml作为配置文件；
+    # 当配置为“peer2”时选择application-peer2.yml作为配置文件。
+    active: peer1
+
+server:
+  port: 5001 #修改内嵌Tomcat端口为5001
+
+eureka:
+  client:
+    # 服务自身就是治理中心，所以这里设置为false，取消注册
+    register-with-eureka: true
+    # 取消服务获取，至于服务获取，本章后续会讨论
+    fetch-registry: true
+    # 服务注册域地址
+    service-url:
+      defaultZone: http://localhost:5001/eureka/,http://localhost:5002/eureka/
+  instance:
+    # 服务治理中心服务器IP
+    hostname: 192.168.1.100

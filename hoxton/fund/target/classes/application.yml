@@ -1,0 +1,17 @@
+# 请求URL指向Eureka服务治理中心
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:5001/eureka/,http://localhost:5002/eureka/
+  instance:
+       # 服务实例主机名称
+    hostname: 127.0.0.1
+
+# Spring应用名称（微服务名称）
+spring:
+  application:
+    name: fund
+  profiles:
+    # 当配置为“peer1”时选择application-peer1.yml作为配置文件；
+    # 当配置为“peer2”时选择application-peer2.yml作为配置文件。
+    active: peer1
