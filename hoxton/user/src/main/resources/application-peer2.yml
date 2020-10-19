@@ -1,2 +1,11 @@
+# 微服务端口
 server:
   port: 6002
+
+# 定义微服务实例信息
+eureka:
+  instance:
+    # 微服务id，规则为“实例服务器名称-微服务名称-端口”
+    instance-id: ${eureka.instance.hostname}-user-${server.port}
+    # “实例服务器名称
+    hostname: localhost
