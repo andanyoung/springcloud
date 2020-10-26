@@ -15,8 +15,14 @@ public class CircuitBreakerController {
 
     @GetMapping("/cr/timeout")
     public ResultMessage timeout() {
-        
+
         return userFacade.timeout();
+    }
+
+    @GetMapping("/cr/timeout2")
+    public ResultMessage timeout2() {
+
+        return userFacade.timeout2();
     }
 
     @GetMapping("/cr/exp/{msg}")
