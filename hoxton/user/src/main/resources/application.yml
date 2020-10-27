@@ -3,9 +3,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:5001/eureka/,http://localhost:5002/eureka/
-  instance:
+  ##instance:
        # 服务实例主机名称
-    hostname: 192.168.1.100
+    ##hostname: 192.168.1.100
 
 # 微服务端口
 server:
