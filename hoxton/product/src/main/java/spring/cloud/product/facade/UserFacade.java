@@ -6,6 +6,7 @@ import spring.cloud.common.vo.ResultMessage;
 import spring.cloud.common.vo.UserInfo;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public interface UserFacade {
 
@@ -32,4 +33,13 @@ public interface UserFacade {
     public UserInfo getUserInfo2(@CacheKey Long id);
 
     public UserInfo updateUserInfo2(UserInfo user);
+
+    public UserInfo getUser(Long id);
+
+    public List<UserInfo> findUsers(Long[] ids);
+
+
+    public Future<UserInfo> getUser2(Long id);
+
+    public List<UserInfo> findUsers2(List<Long> ids);
 }

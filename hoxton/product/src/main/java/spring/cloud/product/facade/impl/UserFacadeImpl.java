@@ -1,6 +1,7 @@
 package spring.cloud.product.facade.impl;
 
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.netflix.hystrix.contrib.javanica.annotation.ObservableExecutionMode;
@@ -9,10 +10,10 @@ import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheRemove;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import rx.Observable;
@@ -289,4 +290,64 @@ public class UserFacadeImpl implements UserFacade {
         return CACHE_PREFIX + user.getId();
     }
 
+
+    /*************合并请求**************************************************/
+    @Override
+    public UserInfo getUser(Long id) {
+        // 单个请求
+        String url = "http://USER/user/info/{id}";
+        return restTemplate.getForObject(url, UserInfo.class, id);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<UserInfo> findUsers(Long[] ids) {
+        String url = "http://USER/user/infoes/{ids}";
+        String strIds = StringUtils.join(ids, ",");
+        System.out.println("准备批量发送请求=》" + strIds);
+        // 定义转换最终类型
+        ParameterizedTypeReference<List<UserInfo>> responseType = new ParameterizedTypeReference<List<UserInfo>>() {
+        };
+
+        // 发生GET请求
+        ResponseEntity<List<UserInfo>> userEntity = restTemplate.exchange(url, HttpMethod.GET, null, responseType, strIds);
+        return userEntity.getBody();
+    }
+
+
+    //使用注解方式合并请求
+    @Override
+    @HystrixCollapser(collapserKey = "userGroup",
+            // 指定合并方法，必需项
+            batchMethod = "findUsers2",
+            //合并器作用域
+            scope = com.netflix.hystrix.HystrixCollapser.Scope.GLOBAL,
+            collapserProperties = {
+                    // 限定合并时间戳为50 ms
+                    @HystrixProperty(name = "timerDelayInMilliseconds", value = "50"),
+                    // 合并最大请求数设置为3
+                    @HystrixProperty(name = "maxRequestsInBatch", value = "3")
+            })
+    public Future<UserInfo> getUser2(Long id) {
+        // 不需要任何逻辑
+        return null;
+    }
+
+    // 定义合并Hystrix命令
+    @HystrixCommand(commandKey = "userGroup")
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<UserInfo> findUsers2(List<Long> ids) {
+        String url = "http://USER/user/infoes/{ids}";
+        String strIds = StringUtils.join(ids, ",");
+        System.out.println("准备批量发送请求=》" + strIds);
+        // 定义转换最终类型
+        ParameterizedTypeReference<List<UserInfo>> responseType
+                = new ParameterizedTypeReference<List<UserInfo>>() {
+        };
+        // 发生GET请求
+        ResponseEntity<List<UserInfo>> userEntity = restTemplate
+                .exchange(url, HttpMethod.GET, null, responseType, strIds);
+        return userEntity.getBody();
+    }
 }

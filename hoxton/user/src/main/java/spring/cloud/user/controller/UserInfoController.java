@@ -1,8 +1,13 @@
 package spring.cloud.user.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import spring.cloud.common.vo.UserInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -33,5 +38,22 @@ public class UserInfoController {
     public UserInfo putUser(@RequestBody UserInfo userInfo) {
         return userInfo;
     }
+
+
+    @GetMapping("/infoes/{ids}")
+    @ResponseBody
+    public ResponseEntity<List<UserInfo>> findUsers(
+            @PathVariable("ids") Long[] ids) {
+        List<UserInfo> userList = new ArrayList<>();
+        for (Long id : ids) {
+            UserInfo userInfo
+                    = new UserInfo(id, "user_name_" + id, "note_" + id);
+            userList.add(userInfo);
+        }
+        ResponseEntity<List<UserInfo>> response // 将结果封装为响应实体
+                = new ResponseEntity<>(userList, HttpStatus.OK);
+        return response;
+    }
+
 }
 

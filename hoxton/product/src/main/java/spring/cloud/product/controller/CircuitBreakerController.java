@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 import spring.cloud.common.vo.ResultMessage;
 import spring.cloud.common.vo.UserInfo;
 import spring.cloud.product.facade.UserFacade;
+import spring.cloud.product.hystrix.collapser.UserHystrixCollapser;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
 
 @RestController
 public class CircuitBreakerController {
@@ -53,5 +58,51 @@ public class CircuitBreakerController {
             context.shutdown(); // 关闭上下文
         }
     }
+
+
+    //合并请求
+    @GetMapping("/user/infoes/{ids}")
+    public List<UserInfo> findUsers(@PathVariable("ids") Long[] ids) {
+        try {
+            List<UserInfo> userList = new ArrayList<>(ids.length);
+            List<Future<UserInfo>> futureList = new ArrayList<>(ids.length);
+            // 将请求全部放入队列
+            for (Long id : ids) {
+                Future<UserInfo> fuser = new UserHystrixCollapser(userFacade, id).queue();
+                futureList.add(fuser);
+            }
+            // 合并请求，获取结果
+            for (Future<UserInfo> fuser : futureList) {
+                userList.add(fuser.get());
+            }
+            return userList;
+            // userFacade.findUsers(ids);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("/user/infoes2/{ids}")
+    public List<UserInfo> findUsers2(@PathVariable("ids") Long[] ids) {
+
+        List<UserInfo> userList = new ArrayList<>(ids.length);
+        List<Future<UserInfo>> futureList = new ArrayList<>(ids.length);
+        // 将请求全部放入队列
+        for (Long id : ids) {
+            Future<UserInfo> fuser = userFacade.getUser2(id);
+            futureList.add(fuser);
+        }
+        // 合并请求，获取结果
+        for (Future<UserInfo> fuser : futureList) {
+            try {
+                userList.add(fuser.get());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return userList;
+    }
+
 
 }
