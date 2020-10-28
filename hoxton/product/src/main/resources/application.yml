@@ -17,3 +17,12 @@ spring:
     # 当配置为“peer1”时选择application-peer1.yml作为配置文件；
     # 当配置为“peer2”时选择application-peer2.yml作为配置文件。
     active: peer1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # 暴露的端点，如果配置为“*”，则代表全部暴露
+        include: hystrix.stream,info,health
+        # 不暴露的端点
+        exclude: env
