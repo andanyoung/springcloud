@@ -10,6 +10,7 @@
         <module>product</module>
         <module>common</module>
         <module>dashboard</module>
+        <module>zuul</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

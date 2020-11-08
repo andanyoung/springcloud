@@ -1,2 +1,7 @@
 server:
   port: 6001
+eureka:
+  instance:
+    metadata-map:
+      #0-代表正常发布， 1-代表灰色发布
+      gray-release: 0

@@ -1,0 +1,103 @@
+# 定义Spring应用名称，它是一个微服务的名称，一个微服务可拥有多个实例
+spring:
+  application:
+    name: zuul
+  # Redis配置
+  redis:
+    # Redis服务器地址
+    host: 118.178.252.252
+    # Redis密码
+    password: ADY201218ady
+    # Jedis客户端
+    jedis:
+      # 连接池配置
+      pool:
+        # 最大活动连接数
+        max-active: 20
+        # 最大等待时间（单位毫秒）
+        max-wait: 2000
+        # 最小闲置连接数
+        min-idle: 5
+        # 最大闲置连接数
+        max-idle: 15
+  datasource:
+    # 数据库URL
+    url: jdbc:mysql://localhost:3306/spring_cloud_zuul?serverTimezone=GMT%2B8
+    # 登录用户
+    username: root
+    # 登录密码
+    password: 123456
+    # 最大活动数
+    max-active: 50
+    # 最大空闲数
+    max-idle: 20
+    # 最小空闲数
+    min-idle: 10
+
+
+
+# 向端口为5001和5002的Eureka服务治理中心注册
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:5001/eureka, http://localhost:5002/eureka
+
+# Zuul的配置
+zuul:
+  # 路由配置
+  routes:
+    # 用户微服务
+    user-service:
+      # 请求拦截路径配置（使用ANT风格）
+      path: /u/**
+      # 通过一个URL配置
+      url: http://localhost:6001/
+    # 产品微服务配置
+    fund-service:
+      # 请求拦截路径配置（使用ANT风格）
+      path: /p/**
+      service-id: product
+  # 过滤器名称 # 禁用过滤器ValidateCodeFilter
+  ValidateCodeFilter:
+    # 过滤器类型
+    pre:
+      disable: false
+    # 禁用过滤器RateLimiterFilter
+  RateLimiterFilter:
+    pre:
+      disable: true
+  ratelimit: # ②
+    # 使用Redis缓存对应的度量数据
+    repository: REDIS # ③
+    # 是否启用限速配置，默认为false，不启用
+    enabled: true # ④
+    # 默认全局配置
+    default-policy-list: # ⑤
+      # 时间戳内限制请求次数
+      - limit: 5
+        # 每次刷新间隔窗口请求时间限制（单位秒）
+        quota: 10
+        # 时间戳（单位秒）
+        refresh-interval: 10
+    policy-list: # 自定义配置 ⑥
+      user-service: # 对应zuul.routes.<key>配置项 ⑦
+        # 时间戳内限制请求次数
+        - limit: 3
+          # 每次刷新间隔窗口请求时间限制（单位秒）
+          quota: 3
+          # 时间窗口刷新间隔，单位秒
+          refresh-interval: 5
+
+# resilience4j配置
+resilience4j:
+  # 限速器注册机
+  ratelimiter:
+    limiters:
+      # 名称为“user”的限速器
+      user:
+        # 时间戳内限制通过的请求数，默认为50
+        limitForPeriod: 3
+        # 配置时间戳（单位毫秒），默认值为500 ns
+        limitRefreshPeriodInMillis: 5000
+        # 超时时间
+        timeoutInMillis: 10

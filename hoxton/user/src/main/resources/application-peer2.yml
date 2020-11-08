@@ -9,3 +9,7 @@ eureka:
     instance-id: ${eureka.instance.hostname}-user-${server.port}
     # “实例服务器名称
     hostname: localhost
+    metadata-map:
+      #0-代表正常发布，1-代表灰色发布
+      gray-release: 1
+
