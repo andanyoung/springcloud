@@ -1,9 +1,9 @@
 package spring.cloud.product.facade;
 
+import UserInfo;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheKey;
 import rx.Observable;
 import spring.cloud.common.vo.ResultMessage;
-import spring.cloud.common.vo.UserInfo;
 
 import java.util.List;
 import java.util.concurrent.Future;

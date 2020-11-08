@@ -4,7 +4,7 @@ import com.netflix.hystrix.HystrixCollapser;
 import com.netflix.hystrix.HystrixCollapserKey;
 import com.netflix.hystrix.HystrixCollapserProperties;
 import com.netflix.hystrix.HystrixCommand;
-import spring.cloud.common.vo.UserInfo;
+import UserInfo;
 import spring.cloud.product.facade.UserFacade;
 import spring.cloud.product.hystrix.cmd.UserFindCommand;
 

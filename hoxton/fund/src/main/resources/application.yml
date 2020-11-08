@@ -15,3 +15,91 @@ spring:
     # 当配置为“peer1”时选择application-peer1.yml作为配置文件；
     # 当配置为“peer2”时选择application-peer2.yml作为配置文件。
     active: peer1
+
+feign:
+  client:
+    # 默认配置key，默认值为default
+    default-config: default #// ①  是否启用默认的属性配置的机制
+    default-to-properties: true
+    config: # ② # 配置default，启用为全局OpenFeign客户端接口提供默认配置
+      #      user:
+      #        # 连接远程服务器超时时间（单位毫秒）
+      #        connectTimeout: 5000
+      #        # 读取请求超时时间（单位毫秒）
+      #        readTimeout: 5000
+      #        # 配置拦截器
+      #        request-interceptors:
+      #          - spring.cloud.fund.facade.interceptor.UserInterceptor
+
+      default: # ③ # 当发生HTTP的404（无对应的资源）错误时，
+        # 是否解码而非抛出FeignExceptions异常
+        decode404: false
+        # 读取请求超时时间（单位毫秒）
+        read-timeout: 5000
+        # 连接远程服务器超时时间（单位毫秒）
+        connect-timeout: 5000
+        # 重试器全限定名（要求是feign.Retryer接口的实现类）
+        retryer: xxx
+        # OpenFeign协议全限定名（要求是feign.Contract接口的实现类）
+        contract: xxx
+        # OpenFeign解码器全限定名（要求是feign.codec.Decoder接口的实现类）
+        decoder: xxx
+        # OpenFeign编码器全限定名（要求是feign.codec.Encoder接口的实现类）
+        encoder: xxx
+        # 日志级别, 分为4级：
+        # 1. NONE: 不记录任何日志（默认值）
+        # 2. BASIC:只记录请求方法和URL以及响应状态代码和执行时间，且只记录基本信息以及请求和响应头
+        # 3. HEADERS:记录基本信息以及请求和响应头
+        # 4. FULL：记录全部请求头和请求体，并记录请求和响应的各类数据
+        logger-level: basic
+        # OpenFeign调用拦截器， List<Class<RequestInterceptor>>类型，
+        # 主要拦截OpenFeign请求，一般可以加入一些请求头 request-interceptors: xxx,xxx,xxx
+        # OpenFeign错误解码器全限定名（要求是feign.codec.ErrorDecoder接口的实现类）
+        error-decoder: xxx
+        # OpenFeign客户端名称，也是用户微服务名称，
+        # 这样就是配置名称为user的OpenFeign客户端 user: // ④ # 连接远程服务器超时时间（单位毫秒）
+        connectTimeout: 5000
+        # 执行请求超时时间（单位毫秒）
+        readTimeout: 5000
+  # Hystrix配置
+  hystrix:
+    # 是否将OpenFeign调度封装为Hystrix命令，然后通过断路器执行，
+    # 默认值为false（旧版本为true）
+    enabled: true # 压缩
+
+  compression:
+    # 请求
+    request:
+      # 是否支持请求GZIP压缩，默认值为false
+      enabled: true
+      # GZIP压缩什么类型，默认值为text/xml,application/xml,application/json
+      mime-types: text/xml,application/xml,application/json
+      # 当请求内容大于多少阈值后，进行GZIP压缩请求，默认值为2048（单位KB）
+      min-request-size: 4096
+    # 响应
+    response:
+      # 请求响应结果是否允许压缩
+      enabled: true
+  httpclient:
+    # 是否启用Apache HTTP Client作为底层连接（Ribbon的默认方法）
+    enabled: false
+    # 尝试连接超时时间
+    connection-timeout: 2000
+    # 是否禁止SSL协议验证
+    disable-ssl-validation: false
+    # 连接重新尝试
+    connection-timer-repeat: 2000
+    # 默认最大连接数
+    max-connections: 100
+    # 单个调用最大连接数
+    max-connections-per-route: 30
+    # HttpClient的存活时间，默认为900，单位通过time-to-live-unit配置
+    time-to-live: 500
+    # HttpClient的存活时间单位，默认为秒（second）
+    time-to-live-unit: milliseconds
+    # 当HTTP返回码为3xx（重定向）时，是否执行重定向操作，默认为true
+    follow-redirects: false
+
+okhttp:
+  # 启用Ok HTTP Client，默认值为false
+  enabled: true

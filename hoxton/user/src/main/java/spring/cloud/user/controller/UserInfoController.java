@@ -1,10 +1,10 @@
 package spring.cloud.user.controller;
 
+import UserInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import spring.cloud.common.vo.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;

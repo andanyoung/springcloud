@@ -1,7 +1,7 @@
 package spring.cloud.product.facade;
 
+import UserInfo;
 import spring.cloud.common.vo.ResultMessage;
-import spring.cloud.common.vo.UserInfo;
 
 public interface R4jFacade {
     public ResultMessage exp(String msg);

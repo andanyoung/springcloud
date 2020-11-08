@@ -1,12 +1,12 @@
 package spring.cloud.product.controller;
 
+import UserInfo;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import spring.cloud.common.vo.ResultMessage;
-import spring.cloud.common.vo.UserInfo;
 import spring.cloud.product.facade.UserFacade;
 import spring.cloud.product.hystrix.collapser.UserHystrixCollapser;
 

@@ -1,5 +1,6 @@
 package spring.cloud.product.facade.impl;
 
+import UserInfo;
 import io.github.resilience4j.bulkhead.Bulkhead;
 import io.github.resilience4j.bulkhead.BulkheadRegistry;
 import io.github.resilience4j.cache.Cache;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import spring.cloud.common.vo.ResultMessage;
-import spring.cloud.common.vo.UserInfo;
 import spring.cloud.product.facade.R4jFacade;
 
 import javax.cache.CacheManager;

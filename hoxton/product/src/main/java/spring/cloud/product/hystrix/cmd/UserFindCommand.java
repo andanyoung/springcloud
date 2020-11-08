@@ -2,7 +2,7 @@ package spring.cloud.product.hystrix.cmd;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
-import spring.cloud.common.vo.UserInfo;
+import UserInfo;
 import spring.cloud.product.facade.UserFacade;
 
 import java.util.List;

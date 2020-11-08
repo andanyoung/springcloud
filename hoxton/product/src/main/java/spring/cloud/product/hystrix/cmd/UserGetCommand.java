@@ -6,7 +6,7 @@ import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixRequestCache;
 import com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategyDefault;
 import org.springframework.web.client.RestTemplate;
-import spring.cloud.common.vo.UserInfo;
+import UserInfo;
 
 public class UserGetCommand extends HystrixCommand<UserInfo> {
 

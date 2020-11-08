@@ -1,12 +1,12 @@
 package spring.cloud.product.controller;
 
+import UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spring.cloud.common.vo.ResultMessage;
-import spring.cloud.common.vo.UserInfo;
 import spring.cloud.product.facade.R4jFacade;
 
 import java.util.ArrayList;

@@ -6,7 +6,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
-import spring.cloud.common.vo.UserInfo;
+import UserInfo;
 
 public class UserPutCommand extends HystrixCommand<UserInfo> {
 

@@ -1,5 +1,6 @@
 package spring.cloud.product.facade.impl;
 
+import UserInfo;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import rx.Observable;
 import spring.cloud.common.vo.ResultMessage;
-import spring.cloud.common.vo.UserInfo;
 import spring.cloud.product.facade.UserFacade;
 import spring.cloud.product.hystrix.cmd.UserExpCommand;
 import spring.cloud.product.hystrix.cmd.UserGetCommand;
