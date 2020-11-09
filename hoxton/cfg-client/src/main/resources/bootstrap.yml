@@ -1,0 +1,30 @@
+spring:
+  application:
+    # 微服务名称
+    name: config-client
+  cloud:
+    # Config客户端配置
+    config:
+      # 连接的URI
+      # uri: http://localhost:4001
+      discovery:
+        # 是否启用服务发现寻找Config服务端
+        enabled: true
+        # Config服务端serviceId
+        serviceId: config-center
+      # 是否支持快速失败
+      fail-fast: false
+      # 使用的分支
+      # label: master
+      # 登录Config服务端的密码
+      password: a123456
+      # 登录Config服务端的用户名称
+      username: admin
+  profiles:
+    # 配置版本号
+    active:
+      - v1
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:5001/eureka,http://localhost:5002/eureka

@@ -11,6 +11,7 @@
         <module>common</module>
         <module>dashboard</module>
         <module>zuul</module>
+        <module>cfg-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

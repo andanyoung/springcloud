@@ -1,0 +1,115 @@
+### ==============使用git=========
+spring:
+  cloud:
+    config:
+      # Config服务端配置
+      server:
+        # 使用Git，将从Git仓库中读取配置文件
+        git:
+          # GitHub的URI，将从GitHub
+          uri: https://gitee.com/java-tutorial/springcloud-config-repo.git
+          # 如果你使用的是私有仓库，则需要填写用户密码
+          # GitHub用户名
+          # username: your-username
+          # GitHub密码
+          # password: your-password
+          # 默认的Git分支，默认值为“master”
+          # default-label: master
+          # 查找路径，可以配置Git仓库的文件路径，
+          # 使用逗号分隔可配置多个路径
+          # search-paths: /config
+  #  datasource:
+  #    url: jdbc:mysql://localhost:3306/spring_cloud_chapter10?serverTimezone=GMT
+  #    username: root
+  #    password: 123456
+  application:
+    # 微服务名称
+    name: config-center
+## 配置端口
+server:
+  port: 4001
+
+### ==============使用本地文件=========
+#spring:
+#  cloud:
+#    config:
+#      # Config服务端配置
+#      server:
+#        # 本地文件
+#        native:
+#          # classpath指向类路径，而/configs代表目录
+#          search-locations: classpath:/configs  # ①
+#  application:
+#    # 微服务名称
+#    name: config-center
+#  profiles:
+#    # 注意，这个配置项一定要配置，
+#    # 否则Config服务端会因默认使用Git报错
+#    active: native # ②
+#server:
+#  # 启动端口
+#  port: 4001
+
+### ==============使用SVN=========
+#spring:
+#  cloud:
+#    config:
+#      # Config服务端配置
+#      server:
+#        # 使用SVN
+#        svn: # ①
+#          # SVN的URI连接
+#          uri: https://gitee.com/java-tutorial/springcloud-config-repo.git
+#          # 默认分支，默认值为“trunk”
+#          # default-label: trunk
+#          # SVN用户名
+#          username: ykzhen
+#          # SVN密码
+#          password: a123456789
+#          # SVN服务器配置文件的路径（可以多个，用逗号分隔）
+#          searchPaths: /config-files
+#  application:
+#    # 微服务名称
+#    name: config-center
+#  profiles:
+#    # 注意，这个配置项一定要配置，否则Config服务端会默认使用Git
+#    active: subversion # ②
+#server:
+#  # 启动端口
+#  port: 4001
+
+#spring:
+#  cloud:
+#    config:
+#      # Config服务端配置
+#      server:
+#        # 数据库方式
+#        jdbc:
+#          # 查询的SQL，需要记住的是客户端会给服务端传递三个参数，它们的顺序依次是：
+#          # {spring.application.name}、{spring.profiles.active}
+#          # 和{spring.cloud.config.label} 它们会依据顺序预编译到SQL中
+#          sql: SELECT property_name, property_value from t_config where application_name =? and version=? and branch=? # ①
+#  application:
+#    # 微服务名称
+#    name: config-center
+#  profiles:
+#    # 注意，这个配置项一定要配置，否则Config服务端会默认使用Git
+#    active: jdbc # ②
+
+#server:
+#  # 启动端口
+#  port: 4001
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:5001/eureka,http://localhost:5002/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # 暴露的端点
+        include: ["health", "configprops"]
+        # 不暴露的端点
+        exclude: env

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--引入JQuery-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        function encode(type) {
+            // 获取用户输入
+            var data = $("#before").val();
+            $.ajax({
+                // POST请求
+                type: 'POST',
+                // 请求路径
+                url: "./" + type,
+                // 请求体
+                data: data,
+                // 获取请求结果的处理
+                success: function (result) {
+                    $("#after").val(result);
+                }
+            });
+        }
+    </script>
+    <meta charset="UTF-8">
+    <title>加密和解密</title>
+</head>
+<body>
+<!-- text/plain -->
+<table>
+    <tr>
+        <td>加密（或解密）字符串：</td>
+        <td><input name="before" id="before" value=""
+                   style="width:500px;"></td>
+    </tr>
+    <tr>
+        <td>处理后的字符串：</td>
+        <td><input name="after" id="after" value=""
+                   style="width:500px;"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td align="right">
+            <input type="button" value="加密" onclick="encode('encrypt');"/>
+            <input type="button" value="解密" onclick="encode('decrypt');"/>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

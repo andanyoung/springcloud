@@ -1,0 +1,3 @@
+encrypt:
+  # 编码密钥
+  key: spring-cloud-cfg-server
