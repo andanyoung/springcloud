@@ -1,0 +1,33 @@
+spring:
+  application:
+    # 配置Spring服务名称
+    name: admin-server
+  # 配置安全用户和密码 ①
+  security:
+    user:
+      name: "admin"
+      password: "123456"
+
+server:
+  port: 9001
+
+# 端点暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+#  注册到服务治理中心
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:5001/eureka,http://localhost:5002/eureka
+  instance:
+    # 配置metadata用户和密码，让其发布到Eureka服务端 ②
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+
+

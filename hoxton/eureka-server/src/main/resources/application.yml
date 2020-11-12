@@ -6,6 +6,12 @@ spring:
     # 当配置为“peer1”时选择application-peer1.yml作为配置文件；
     # 当配置为“peer2”时选择application-peer2.yml作为配置文件。
     active: peer1
+#  boot:
+#    # Spring Boot Admin配置
+#    admin:
+#      # 服务器的注册地址
+#      client:
+#        url: http://localhost:9001
 
 server:
   port: 5001 #修改内嵌Tomcat端口为5001
@@ -22,3 +28,11 @@ eureka:
   instance:
     # 服务治理中心服务器IP
     hostname: 192.168.1.100
+
+
+# 端点暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

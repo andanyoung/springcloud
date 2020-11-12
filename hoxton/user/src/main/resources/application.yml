@@ -16,5 +16,20 @@ spring:
   application:
     name: user
   profiles:
-    # 当配置为“peer1”时选择application-peer1.yml作为配置文件； # 当配置为“peer2”时选择application-peer2.yml作为配置文件。
+    # 当配置为“peer1”时选择application-peer1.yml作为配置文件；
+    # 当配置为“peer2”时选择application-peer2.yml作为配置文件。
     active: peer1
+#  boot:
+#    # Spring Boot Admin配置
+#    admin:
+#      # 服务器的注册地址
+#      client:
+#        url: http://localhost:9001
+
+# Actuator端点暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        # 配置Actuator暴露哪些端点 ②
+        include: '*'

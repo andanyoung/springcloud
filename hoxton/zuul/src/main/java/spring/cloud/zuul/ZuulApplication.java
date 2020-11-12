@@ -9,8 +9,6 @@ import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.filters.discovery.ServiceRouteMapper;
-import org.springframework.context.annotation.Bean;
-import spring.cloud.zuul.route.MyRouteLocator;
 
 @SpringBootApplication(scanBasePackages = "spring.cloud.zuul")
 // 驱动Zuul代理启动
@@ -41,14 +39,14 @@ public class ZuulApplication {
     @Autowired
     private ServiceRouteMapper serviceRouteMapper;
 
-    @Bean(name = "routeLocator")
-    public MyRouteLocator initMyRouteLocator() {
-        return new MyRouteLocator(
-                this.server.getServlet().getContextPath(),
-                this.discovery,
-                this.zuulProperties,
-                this.serviceRouteMapper,
-                this.registration);
-    }
+//    @Bean(name = "routeLocator")
+//    public MyRouteLocator initMyRouteLocator() {
+//        return new MyRouteLocator(
+//                this.server.getServlet().getContextPath(),
+//                this.discovery,
+//                this.zuulProperties,
+//                this.serviceRouteMapper,
+//                this.registration);
+//    }
 
 }
