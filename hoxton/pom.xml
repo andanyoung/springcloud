@@ -13,6 +13,7 @@
         <module>zuul</module>
         <module>cfg-server</module>
         <module>admin-server</module>
+        <module>Chapter13</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
