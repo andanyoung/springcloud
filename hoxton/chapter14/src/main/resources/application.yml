@@ -1,0 +1,91 @@
+mybatis:
+  # 配置映射文件
+  mapper-locations: classpath:/mybatis/*.xml
+  # 配置类型处理器（TypeHandler）所在包
+  type-handlers-package: spring.cloud.chapter14.type.handler
+  # 配置POJO包，以便别名扫描
+  type-aliases-package: spring.cloud.chapter14.pojo
+#jdbc:
+#  # 数据源1
+#  ds1:
+#    id: '001'
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/sc_chapter14_1?serverTimezone=UTC
+#    username: root
+#    password: 123456
+#    default: true
+#  # 数据源2
+#  ds2:
+#    id: '002'
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/sc_chapter14_2?serverTimezone=UTC
+#    username: root
+#    password: 123456
+#  # 数据源3
+#  ds3:
+#    id: '003'
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/sc_chapter14_3?serverTimezone=UTC
+#    username: root
+#    password: 123456
+#  # 数据库连接池配置
+#  pool:
+#    # 最大空闲连接数
+#    max-idle: 10
+#    # 最大活动连接数
+#    max-active: 50
+#    # 最小空闲连接数
+#    min-idle: 5
+server:
+  port: 1014
+
+
+sharding:
+  jdbc:
+    config:
+      sharding:
+        # 默认的数据库分库策略
+        default-database-strategy: # ①
+          # 使用行分库策略
+          inline: # 选择行表达式分片策略 ④
+            # 使用 用户编号（user_id）作为分片键
+            sharding-column: user_id
+            # 分库策略表达式，user_id%3代表使用用户编号对3取模，然后在ds0,ds1和ds2中
+            #选中数据库，这样就能实现一个散列求余的分库算法
+            algorithm-expression: ds$->{user_id % 3}
+        # 定义逻辑表和其策略
+        tables: # ②
+          # 逻辑表名
+          t_transaction:
+            # 给逻辑表绑定真实表名， {0..2}表示数据库名称从ds0到ds2变化
+            actual-data-nodes: ds$->{0..2}.t_transaction
+    # 配置数据库  # ③
+    datasource:
+      # 各个数据库分库的名称
+      names: ds0,ds1,ds2
+      # 名称为"ds0"的数据库
+      ds0:
+        # 数据源类型（使用哪个类，要求该类实现DataSource接口）
+        type: org.apache.commons.dbcp2.BasicDataSource
+        # 驱动类
+        driver: com.mysql.jdbc.Driver
+        # 数据库URL
+        url: jdbc:mysql://localhost:3306/sc_chapter14_1?serverTimezone=UTC
+        # 数据库用户
+        username: root
+        # 数据库密码
+        password: 123456
+      # 请参考名称为"ds0"的数据库配置注释
+      ds1:
+        type: org.apache.commons.dbcp2.BasicDataSource
+        driver: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/sc_chapter14_2?serverTimezone=UTC
+        username: root
+        password: 123456
+      # 请参考名称为"ds0"的数据库配置注释
+      ds2:
+        type: org.apache.commons.dbcp2.BasicDataSource
+        driver: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/sc_chapter14_3?serverTimezone=UTC
+        username: root
+        password: 123456
