@@ -1,0 +1,26 @@
+# 设置端口
+server:
+  port: 1015
+# Debug级别日志，使得日志更详尽
+logging:
+  level:
+    root: debug
+
+# RabbitMQ配置项
+spring:
+  rabbitmq:
+    # 服务器
+    host: localhost
+    # 端口
+    port: 5672
+    # 用户
+    username: admin
+    # 密码
+    password: 123456
+    # 使用发布者确认模式？
+    publisher-confirm-type: simple
+
+# 配置RabbitMQ队列名称
+rabbitmq:
+  queue:
+    fund: fund
